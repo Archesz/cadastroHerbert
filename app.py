@@ -1,6 +1,5 @@
 import streamlit as st
 from io import BytesIO
-import matplotlib.pyplot as plt
 from background import getImage
 from docx import Document
 
