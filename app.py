@@ -95,7 +95,7 @@ if cadastrar:
     
     #create_word_document("contrato.docx", nome, cpf, cep, num_casa, curso, periodo, genero, racial, instituicoes)
 
-    docx_buffer = create_word_document(nome, cpf, cep, num_casa, curso, periodo, genero, racial, instituicoes)
+    docx_buffer = create_word_document(".", nome, cpf, cep, num_casa, curso, periodo, genero, racial, instituicoes)
 
     # Cria um botão para download do arquivo .docx
     st.download_button(label="Baixar Contrato",
