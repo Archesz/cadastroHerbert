@@ -84,8 +84,7 @@ def add_red_background(image, mask):
     return image
 
 def add_background_image(foreground_image, mask, background_image_url):
-#    background_image = load_image_from_file(background_image_url)
-    background_image = load_image("https://img.freepik.com/fotos-gratis/resumo-luxo-macio-fundo-vermelho-projeto-de-layout-dos-namorados-de-natal-estudio-sala-modelo-da-web-relatorio-de-negocios-com-cor-gradiente-de-circulo-suave_1258-54521.jpg")
+    background_image = load_image_from_file(background_image_url)
     background_image = background_image.resize(foreground_image.size)
 
     final_image = Image.new("RGBA", foreground_image.size)
@@ -102,10 +101,9 @@ def add_background_image(foreground_image, mask, background_image_url):
 
 
 def getImage(image_original):
-    image_url = "imagem.png"
     background_image_url = "background.png"
     
-    image = load_image_from_file(image_original)
+    image = load_image_from_data(image_original)
     mask = segment(image)
     image_with_background = add_background_image(image, mask, background_image_url)
     cropped_image = crop_to_person(image_with_background, mask)
