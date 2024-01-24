@@ -84,7 +84,8 @@ def add_red_background(image, mask):
     return image
 
 def add_background_image(foreground_image, mask, background_image_url):
-    background_image = load_image_from_file(background_image_url)
+#    background_image = load_image_from_file(background_image_url)
+    background_image = load_image("https://img.freepik.com/fotos-gratis/resumo-luxo-macio-fundo-vermelho-projeto-de-layout-dos-namorados-de-natal-estudio-sala-modelo-da-web-relatorio-de-negocios-com-cor-gradiente-de-circulo-suave_1258-54521.jpg")
     background_image = background_image.resize(foreground_image.size)
 
     final_image = Image.new("RGBA", foreground_image.size)
