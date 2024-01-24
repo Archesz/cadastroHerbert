@@ -99,10 +99,11 @@ def add_background_image(foreground_image, mask, background_image_url):
 
     return final_image
 
-image_url = "imagem.png"
-background_image_url = "./background.png"
 
 def getImage(image_original):
+    image_url = "imagem.png"
+    background_image_url = "background.png"
+    
     image = load_image_from_file(image_original)
     mask = segment(image)
     image_with_background = add_background_image(image, mask, background_image_url)
