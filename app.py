@@ -33,7 +33,11 @@ def create_word_document(file_path, nome, cpf, cep, num_casa, curso, periodo, id
     doc.add_paragraph('Data: ___/___/____')
 
     # Salvar o documento
-    doc.save(file_path)
+    buffer = BytesIO()
+    doc.save(buffer)
+    buffer.seek(0)
+    return buffer
+#    doc.save(file_path)
 
 
 st.title("Cadastro Herbert")
@@ -89,7 +93,15 @@ cadastrar = st.button("Cadastrar")
 
 if cadastrar:
     
-    create_word_document("contrato.docx", nome, cpf, cep, num_casa, curso, periodo, genero, racial, instituicoes)
+    #create_word_document("contrato.docx", nome, cpf, cep, num_casa, curso, periodo, genero, racial, instituicoes)
+
+    docx_buffer = create_word_document(nome, cpf, cep, num_casa, curso, periodo, genero, racial, instituicoes)
+
+    # Cria um botão para download do arquivo .docx
+    st.download_button(label="Baixar Contrato",
+                       data=docx_buffer,
+                       file_name="contrato.docx",
+                       mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
     if photo is not None:
         st.image(processed_image)
