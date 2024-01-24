@@ -3,6 +3,7 @@ import torchvision.transforms as T
 from PIL import Image
 import requests
 from io import BytesIO
+import matplotlib.pyplot as plt
 
 import numpy as np
 
@@ -102,8 +103,8 @@ def add_background_image(foreground_image, mask, background_image_url):
 image_url = "imagem.png"
 background_image_url = "./background.png"
 
-def getImage(image_data):
-    image = load_image_from_data(image_data)
+def getImage(image_original):
+    image = load_image_from_file(image_original)
     mask = segment(image)
     image_with_background = add_background_image(image, mask, background_image_url)
     cropped_image = crop_to_person(image_with_background, mask)
