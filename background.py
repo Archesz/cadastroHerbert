@@ -53,7 +53,7 @@ def transform_image(image):
     ])
     return transform(image).unsqueeze(0)
 
-def segment(image, threshold=0.5):
+def segment(image, threshold=0.8):
     model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_resnet50', pretrained=True)
     model.eval()
     input_tensor = transform_image(image)
@@ -61,7 +61,11 @@ def segment(image, threshold=0.5):
         output = model(input_tensor)['out'][0]
     output_predictions = output.argmax(0)
     mask = output_predictions.byte().cpu().numpy()
-    mask = (mask == 15)
+    
+    confidence = torch.softmax(output, dim=0)[15]  
+    confidence = confidence.cpu().numpy()
+    mask = (mask == 15) & (confidence > threshold)
+
     return mask
 
 def remove_background(image, mask):
@@ -73,6 +77,28 @@ def remove_background(image, mask):
             if not mask[y, x]:
                 image.putpixel((x, y), (0, 0, 0, 0))
     return image
+
+def remove_bg(image_bytes):
+    response = requests.post(
+        'https://api.remove.bg/v1.0/removebg', 
+        files={'image_file': ('image.png', image_bytes)},
+        data={'size': 'auto'},
+        headers={'X-Api-Key': 'xrvbqasp9owyv4NPfK1XmJ45'},
+    )
+
+    if response.status_code == requests.codes.ok:
+        img_no_bg = Image.open(BytesIO(response.content))
+
+        red_background = Image.new("RGB", img_no_bg.size, (173, 13, 13))
+        red_background.paste(img_no_bg, mask=img_no_bg.split()[3])
+
+        final_img_bytes = BytesIO()
+        red_background.save(final_img_bytes, format='PNG')
+        final_img_bytes.seek(0)
+        return final_img_bytes
+    else:
+        print("Error:", response.status_code, response.text)
+        return None
 
 def add_red_background(image, mask):
     image = image.copy()
