@@ -54,6 +54,7 @@ def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, nu
     data_atual = datetime.date.today()
     ano_atual = data_atual.year
     # Verifica se o CPF já está cadastrado
+    firebase_admin.get_app()
     
     ref = db.reference('/students')
     students = ref.order_by_child('cpf').equal_to(cpf).get()
@@ -111,7 +112,6 @@ def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, nu
             "IF": [],
         }
     }
-    firebase_admin.get_app()
 
     # Envia os dados para o Firebase
     new_student_ref = ref.push(student_data)
