@@ -203,7 +203,7 @@ cadastrar = st.button("Cadastrar")
 
 if cadastrar:
 
-    registrar = register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, processed_image   )
+    registrar = register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, processed_image)
 
     if registrar == True:
         docx_buffer = create_word_document(".", nome, cpf, cep, num_casa, curso, periodo, genero, racial, instituicoes)
@@ -212,6 +212,8 @@ if cadastrar:
                         data=docx_buffer,
                         file_name="contrato.docx",
                         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+
+        st.image(processed_image)
         
         st.success("Cadastrado com sucesso!")
     else:
