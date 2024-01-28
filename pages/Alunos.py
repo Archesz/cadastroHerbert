@@ -50,7 +50,7 @@ def upload_photo_to_storage(photo_bytes, student_id):
 
     return blob.public_url
 
-def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, photo=None):
+def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, photo):
     data_atual = datetime.date.today()
     ano_atual = data_atual.year
     # Verifica se o CPF já está cadastrado
