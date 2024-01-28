@@ -212,8 +212,6 @@ if cadastrar:
                         data=docx_buffer,
                         file_name="contrato.docx",
                         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-
-        st.image(processed_image)
         
         st.success("Cadastrado com sucesso!")
     else:
