@@ -50,10 +50,11 @@ def upload_photo_to_storage(photo_bytes, student_id):
 
     return blob.public_url
 
-def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, photo=None):
+def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, photo):
     data_atual = datetime.date.today()
     ano_atual = data_atual.year
     # Verifica se o CPF já está cadastrado
+    firebase_admin.get_app()
     
     firebase_admin.get_app()
 
@@ -204,7 +205,11 @@ cadastrar = st.button("Cadastrar")
 
 if cadastrar:
 
+<<<<<<< HEAD
     registrar = register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, photo_bytes)
+=======
+    registrar = register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, processed_image)
+>>>>>>> aa26b7faf6a88b78dd5ad2532214246f3882a595
 
     if registrar == True:
             
@@ -214,8 +219,15 @@ if cadastrar:
                         data=docx_buffer,
                         file_name="contrato.docx",
                         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+<<<<<<< HEAD
 
 
         st.success("Cadastrado com sucesso!")
     else:
         st.error("Não cadastrado. Erro.")
+=======
+        
+        st.success("Cadastrado com sucesso!")
+    else:
+        st.error("Não cadastrado. CPF já cadastrado.")
+>>>>>>> aa26b7faf6a88b78dd5ad2532214246f3882a595
