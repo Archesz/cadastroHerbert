@@ -78,7 +78,7 @@ def remove_background(image, mask):
                 image.putpixel((x, y), (0, 0, 0, 0))
     return image
 
-def remove_bg(image_bytes):
+#def remove_bg(image_bytes):
     response = requests.post(
         'https://api.remove.bg/v1.0/removebg', 
         files={'image_file': ('image.png', image_bytes)},

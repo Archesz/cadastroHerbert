@@ -1,6 +1,6 @@
 import streamlit as st
 from io import BytesIO
-from background import getImage, remove_bg
+# from background import getImage, remove_bg
 from docx import Document
 import datetime
 
@@ -55,12 +55,15 @@ def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, nu
     ano_atual = data_atual.year
     # Verifica se o CPF já está cadastrado
     
+    firebase_admin.get_app()
+
+    
     ref = db.reference('/students')
     students = ref.order_by_child('cpf').equal_to(cpf).get()
 
-    if students:
+    if students is None:
         return False  # CPF já existe
-
+    
     student_data = {
         'nome': nome,
         'cpf': cpf,
@@ -111,15 +114,13 @@ def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, nu
             "IF": [],
         }
     }
-    firebase_admin.get_app()
 
     # Envia os dados para o Firebase
     new_student_ref = ref.push(student_data)
 
-    if photo is not None:
-        photo_url = upload_photo_to_storage(photo, cpf)  # Usando CPF como identificador único
-        student_data['photo'] = photo_url
-        new_student_ref.update({'photo': photo_url})
+    photo_url = upload_photo_to_storage(photo, cpf)  # Usando CPF como identificador único
+    student_data['photo'] = photo_url
+    new_student_ref.update({'photo': photo_url})
 
     return True
 
@@ -180,7 +181,7 @@ photo = st.camera_input("Carometro")
 
 if photo is not None:
     photo_bytes = BytesIO(photo.getvalue())
-    processed_image = remove_bg(photo_bytes)
+    # processed_image = remove_bg(photo_bytes)
 
 st.subheader("Informações CAD")
 
@@ -203,9 +204,10 @@ cadastrar = st.button("Cadastrar")
 
 if cadastrar:
 
-    registrar = register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, processed_image   )
+    registrar = register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, photo_bytes)
 
     if registrar == True:
+            
         docx_buffer = create_word_document(".", nome, cpf, cep, num_casa, curso, periodo, genero, racial, instituicoes)
 
         st.download_button(label="Baixar Contrato",
@@ -213,9 +215,7 @@ if cadastrar:
                         file_name="contrato.docx",
                         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
-        if photo is not None:
-            st.image(processed_image)
 
         st.success("Cadastrado com sucesso!")
     else:
-        st.error("Não cadastrado. CPF já cadastrado.")
+        st.error("Não cadastrado. Erro.")

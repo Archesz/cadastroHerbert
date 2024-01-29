@@ -1,6 +1,6 @@
 import streamlit as st
 from io import BytesIO
-from background import getImage, remove_bg
+# from background import getImage, remove_bg
 from docx import Document
 import firebase_admin
 from firebase_admin import credentials, db
