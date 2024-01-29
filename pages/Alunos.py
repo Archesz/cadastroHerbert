@@ -219,7 +219,3 @@ if cadastrar:
         st.success("Cadastrado com sucesso!")
     else:
         st.error("Não cadastrado. Erro.")
-        
-        st.success("Cadastrado com sucesso!")
-    else:
-        st.error("Não cadastrado. CPF já cadastrado.")
