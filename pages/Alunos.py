@@ -205,11 +205,7 @@ cadastrar = st.button("Cadastrar")
 
 if cadastrar:
 
-<<<<<<< HEAD
     registrar = register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, photo_bytes)
-=======
-    registrar = register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, processed_image)
->>>>>>> aa26b7faf6a88b78dd5ad2532214246f3882a595
 
     if registrar == True:
             
@@ -219,15 +215,11 @@ if cadastrar:
                         data=docx_buffer,
                         file_name="contrato.docx",
                         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-<<<<<<< HEAD
-
 
         st.success("Cadastrado com sucesso!")
     else:
         st.error("Não cadastrado. Erro.")
-=======
         
         st.success("Cadastrado com sucesso!")
     else:
         st.error("Não cadastrado. CPF já cadastrado.")
->>>>>>> aa26b7faf6a88b78dd5ad2532214246f3882a595
