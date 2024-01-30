@@ -6,3 +6,4 @@ Pillow
 requests
 firebase_admin
 datetime
+plotly
