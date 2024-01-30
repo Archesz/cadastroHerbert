@@ -6,5 +6,4 @@ Pillow
 requests
 firebase_admin
 datetime
-plotly
-plotly.express
+plotly==5.18.0
