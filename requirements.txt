@@ -7,3 +7,4 @@ requests
 firebase_admin
 datetime
 plotly
+plotly.express
