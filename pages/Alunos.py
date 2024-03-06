@@ -8,7 +8,6 @@ import time
 import firebase_admin
 from firebase_admin import credentials, db
 from firebase_admin import storage
-from streamlit_js_eval import streamlit_js_eval
 
 firebase_admin.get_app()
 
@@ -221,8 +220,19 @@ if cadastrar:
         st.success("Cadastrado com sucesso!")
 
         time.sleep(5)
-        streamlit_js_eval(js_expressions="parent.window.location.reload()")
 
+        # Limpar os campos após o cadastro bem-sucedido
+        nome = ""
+        cpf = ""
+        nascimento = ""
+        telefone = ""
+        email = ""
+        cep = ""
+        num_casa = 0
+        genero = ""
+        racial = ""
+        instituicoes = []
+        photo = None
     
     else:
         st.error("Não cadastrado. Erro.")
