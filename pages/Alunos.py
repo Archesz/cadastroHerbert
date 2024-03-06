@@ -3,7 +3,8 @@ from io import BytesIO
 # from background import getImage, remove_bg
 from docx import Document
 import datetime
-
+from streamlit_js_eval import streamlit_js_eval
+import time 
 import firebase_admin
 from firebase_admin import credentials, db
 from firebase_admin import storage
@@ -217,5 +218,10 @@ if cadastrar:
                         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
         st.success("Cadastrado com sucesso!")
+
+        time.sleep(5)
+        streamlit_js_eval(js_expressions="parent.window.location.reload()")
+
+    
     else:
         st.error("Não cadastrado. Erro.")
