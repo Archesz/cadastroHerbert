@@ -221,18 +221,7 @@ if cadastrar:
 
         time.sleep(5)
 
-        # Limpar os campos após o cadastro bem-sucedido
-        nome = ""
-        cpf = ""
-        nascimento = ""
-        telefone = ""
-        email = ""
-        cep = ""
-        num_casa = 0
-        genero = ""
-        racial = ""
-        instituicoes = []
-        photo = None
-    
+        st.experimental_rerun()
+        
     else:
         st.error("Não cadastrado. Erro.")
