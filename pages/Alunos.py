@@ -54,77 +54,89 @@ def upload_photo_to_storage(photo_bytes, student_id):
 def register_student_to_firebase(nome, cpf, nascimento, telefone, email, cep, num_casa, curso, periodo, genero, racial, instituicoes, photo):
     data_atual = datetime.date.today()
     ano_atual = data_atual.year
-    # Verifica se o CPF já está cadastrado
-    firebase_admin.get_app()
-    
-    firebase_admin.get_app()
-
     
     ref = db.reference('/students')
     students = ref.order_by_child('cpf').equal_to(cpf).get()
 
-    if students is None:
-        return False  # CPF já existe
-    
-    student_data = {
-        'nome': nome,
-        'cpf': cpf,
-        'nascimento': str(nascimento),
-        'telefone': telefone,
-        'email': email,
-        'cep': cep,
-        'num_casa': num_casa,
-        'curso': curso,
-        'periodo': periodo,
-        'genero': genero,
-        'etnia': racial,
-        'instituicoes': instituicoes,
-        'ano': ano_atual,
-        'frequencia': {
-            "Matemática": 100,
-            "Física": 100,
-            "Química": 100,
-            "Biologia": 100,
-            "História": 100,
-            "Geografia": 100,
-            "Filosofia": 100,
-            "Sociologia": 100,
-            "Gramática": 100,
-            "Literatura": 100,
-            "Redação": 100
-        },
-        'score': {
-            "Matemática": 0,
-            "Física": 0,
-            "Química": 0,
-            "Biologia": 0,
-            "História": 0,
-            "Geografia": 0,
-            "Filosofia": 0,
-            "Sociologia": 0,
-            "Gramática": 0,
-            "Literatura": 0,
-            "Redação": 0
-        },
-        'simulados': {
-            "Unicamp": [],
-            "USP": [],
-            "Unesp": [],
-            "Enem": [],
-            "Cotuca": [],
-            "Etec": [],
-            "IF": [],
+    if students:
+        # Atualiza os dados do aluno
+        for student_id, student_data in students.items():
+            ref.child(student_id).update({
+                'nome': nome,
+                'nascimento': str(nascimento),
+                'telefone': telefone,
+                'email': email,
+                'cep': cep,
+                'num_casa': num_casa,
+                'curso': curso,
+                'periodo': periodo,
+                'genero': genero,
+                'etnia': racial,
+                'instituicoes': instituicoes,
+                'photo': upload_photo_to_storage(photo, cpf)
+            })
+        return True  # CPF já existe e dados foram atualizados
+    else:
+        # Cria um novo cadastro
+        student_data = {
+            'nome': nome,
+            'cpf': cpf,
+            'nascimento': str(nascimento),
+            'telefone': telefone,
+            'email': email,
+            'cep': cep,
+            'num_casa': num_casa,
+            'curso': curso,
+            'periodo': periodo,
+            'genero': genero,
+            'etnia': racial,
+            'instituicoes': instituicoes,
+            'ano': ano_atual,
+            'frequencia': {
+                "Matemática": 100,
+                "Física": 100,
+                "Química": 100,
+                "Biologia": 100,
+                "História": 100,
+                "Geografia": 100,
+                "Filosofia": 100,
+                "Sociologia": 100,
+                "Gramática": 100,
+                "Literatura": 100,
+                "Redação": 100
+            },
+            'score': {
+                "Matemática": 0,
+                "Física": 0,
+                "Química": 0,
+                "Biologia": 0,
+                "História": 0,
+                "Geografia": 0,
+                "Filosofia": 0,
+                "Sociologia": 0,
+                "Gramática": 0,
+                "Literatura": 0,
+                "Redação": 0
+            },
+            'simulados': {
+                "Unicamp": [],
+                "USP": [],
+                "Unesp": [],
+                "Enem": [],
+                "Cotuca": [],
+                "Etec": [],
+                "IF": [],
+            }
         }
-    }
 
-    # Envia os dados para o Firebase
-    new_student_ref = ref.push(student_data)
+        # Envia os dados para o Firebase
+        new_student_ref = ref.push(student_data)
 
-    photo_url = upload_photo_to_storage(photo, cpf)  # Usando CPF como identificador único
-    student_data['photo'] = photo_url
-    new_student_ref.update({'photo': photo_url})
+        photo_url = upload_photo_to_storage(photo, cpf)  # Usando CPF como identificador único
+        student_data['photo'] = photo_url
+        new_student_ref.update({'photo': photo_url})
 
-    return True
+        return True  # Novo cadastro realizado com sucesso
 
 st.title("Cadastro Herbert")
 
