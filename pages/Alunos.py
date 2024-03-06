@@ -221,7 +221,7 @@ if cadastrar:
 
         time.sleep(5)
 
-        st.experimental_rerun()
+        st.rerun()
         
     else:
         st.error("Não cadastrado. Erro.")
