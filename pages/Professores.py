@@ -219,14 +219,10 @@ if view == "Cadastro":
 
     with col2:
         telefone = st.text_input("Whatsapp: ")
+    
+    genero = st.radio("**Como você se identifica**", ["Masculino", "Feminino", "Não Binário", "Outros"])
 
-    col4, col5 = st.columns(2)
-    
-    with col4:
-        genero = st.radio("**Como você se identifica**", ["Masculino", "Feminino", "Não Binário", "Outros"])
-    
-    with col5:
-        racial = st.radio("Como você se identifica", ["Negro/Negra", "Branco/Branca", "Pardo/Parda", "Amarelo/Amarela", "Indígena"])
+    racial = st.radio("Como você se identifica", ["Negro/Negra", "Branco/Branca", "Pardo/Parda", "Amarelo/Amarela", "Indígena"])
     
     photo = st.camera_input("Carometro")
 
