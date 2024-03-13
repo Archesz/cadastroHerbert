@@ -175,9 +175,28 @@ def register_teacher(nome, disciplinas, cpf, telefone, turmas, periodos):
     }
 
 
-    ref.push(teacher_data)
+    new_teacher_ref = ref.push(teacher_data)
+
+    photo_url = upload_photo_to_storage(photo, cpf)  # Usando CPF como identificador único
+
+    teacher_data['photo'] = photo_url
+    new_teacher_ref.update({'photo': photo_url})
+
 
     return True
+
+def upload_photo_to_storage(photo_bytes, teacher_id):
+    firebase_admin.get_app()
+
+    bucket = storage.bucket('herbert2024-be557.appspot.com')
+
+    blob = bucket.blob(f'teacher_photos/{teacher_id}.jpg')
+
+    blob.upload_from_string(photo_bytes.getvalue(), content_type='image/jpeg')
+
+    blob.make_public()
+
+    return blob.public_url
 
 view = st.selectbox("", ["Cadastro", "Professores"])
 
@@ -199,6 +218,11 @@ if view == "Cadastro":
     with col2:
         telefone = st.text_input("Whatsapp: ")
 
+    photo = st.camera_input("Carometro")
+
+    if photo is not None:
+        photo_bytes = BytesIO(photo.getvalue())
+    
     st.subheader("Dados Herbert")
 
     col6, col7 = st.columns(2)
