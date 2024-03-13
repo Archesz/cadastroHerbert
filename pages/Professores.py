@@ -8,7 +8,7 @@ import firebase_admin
 from firebase_admin import credentials, db
 from firebase_admin import storage
 
-def register_teacher(nome, disciplinas, cpf, telefone, turmas, periodos):
+def register_teacher(nome, disciplinas, cpf, telefone, turmas, periodos, genero, racial):
     
     firebase_admin.get_app()
 
@@ -21,6 +21,8 @@ def register_teacher(nome, disciplinas, cpf, telefone, turmas, periodos):
         'turmas': turmas,
         'periodos': periodos,
         'disciplinas': disciplinas,
+        'genero': genero,
+        'etnia': racial,
         'horarios': {
             "Técnico": {
                 "Matutino": {
@@ -218,6 +220,14 @@ if view == "Cadastro":
     with col2:
         telefone = st.text_input("Whatsapp: ")
 
+    col4, col5 = st.columns(2)
+    
+    with col4:
+        genero = st.radio("**Como você se identifica**", ["Masculino", "Feminino", "Não Binário", "Outros"])
+    
+    with col5:
+        racial = st.radio("Como você se identifica", ["Negro/Negra", "Branco/Branca", "Pardo/Parda", "Amarelo/Amarela", "Indígena"])
+    
     photo = st.camera_input("Carometro")
 
     if photo is not None:
@@ -235,12 +245,11 @@ if view == "Cadastro":
     with col7:
         periodo = st.multiselect("Período", periodos)
 
-
     cadastrar = st.button("Cadastrar")
 
     if cadastrar:
 
-        registrar = register_teacher(nome, disciplinas, cpf, telefone, turmas, periodo)
+        registrar = register_teacher(nome, disciplinas, cpf, telefone, turmas, periodo, genero, racial)
 
         if registrar == True:
             st.success("Cadastrado com sucesso!")
