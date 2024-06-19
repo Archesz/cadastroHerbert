@@ -5,7 +5,7 @@ from docx import Document
 import firebase_admin
 from firebase_admin import credentials, db
 
-cred = credentials.Certificate("key2.json")
+cred = credentials.Certificate("key.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://crudherbert-default-rtdb.firebaseio.com',
     'storageBucket': 'gs://herbert2024-be557.appspot.com'
